@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  description: "Authentication Microservice for Employee Managemetn System"
+  version: "1.0.0"
+  title: "Authentication Service"
+
+basePath: "/"
+tags:
+  - name: "Signup"
+    description: "Employee Signup"
+schemes:
+  - "http"
+paths:
+  /Signup:
+    post:
+      summary: "An Employee Signs Up through this API"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/employee"
+      operationId: "EmployeeSignup"
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '#/definitions/employee'
+        409:
+          description: Already Exists
+        500:
+          schema:
+            type: string
+          description: Server error
+
+  /login:
+    post:
+      description: 'Returns token for authorized User'
+      operationId: Login
+      consumes:
+        - "application/json"
+      parameters:
+        - name: 'login'
+          in: 'body'
+          required: true
+          description: 'Login Payload'
+          schema:
+            $ref: '#/definitions/LoginInfo'
+      responses:
+        200:
+          description: Successful login
+          schema:
+            $ref: '#/definitions/LoginSuccess'
+        400:
+          description: Bad Request
+        404:
+          schema:
+            type: string
+          description: User not found
+        500:
+          schema:
+            type: string
+          description: Server error
+
+definitions:
+  employee:
+    type: "object"
+    required:
+      - "full_name"
+      - "father_name"
+      - "age"
+      - "email"
+      - "password"
+      - "NIC"
+      - "gender"
+    properties:
+      full_name:
+        type: "string"
+        example: "Ahmed Khan"
+
+      father_name:
+        type: "string"
+        example: "Ali Ahmed"
+
+      age:
+        type: integer
+        example: 23
+
+      email:
+        type: string
+        example: 123@wanclouds.net
+        pattern: '^[a-zA-Z0-9_\-\.]+[@][wanclouds]{0,9}[\.][net]{3}$'
+
+      password:
+        type: "string"
+
+      NIC:
+        type: "string"
+        example: "15101-8745216-9"
+
+      gender:
+        type: "string"
+        example: "Male"
+
+
+
+  LoginInfo:
+    type: object
+    required: [email, password]
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+
+
+  LoginSuccess:
+    type: object
+    properties:
+      success:
+        type: boolean
+      token:
+        type: string
