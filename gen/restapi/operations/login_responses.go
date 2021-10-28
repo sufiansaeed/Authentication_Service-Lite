@@ -57,34 +57,52 @@ func (o *LoginOK) WriteResponse(rw http.ResponseWriter, producer runtime.Produce
 	}
 }
 
-// LoginBadRequestCode is the HTTP code returned for type LoginBadRequest
-const LoginBadRequestCode int = 400
+// LoginUnauthorizedCode is the HTTP code returned for type LoginUnauthorized
+const LoginUnauthorizedCode int = 401
 
-/*LoginBadRequest Bad Request
+/*LoginUnauthorized Incorrect Password
 
-swagger:response loginBadRequest
+swagger:response loginUnauthorized
 */
-type LoginBadRequest struct {
+type LoginUnauthorized struct {
+
+	/*
+	  In: Body
+	*/
+	Payload string `json:"body,omitempty"`
 }
 
-// NewLoginBadRequest creates LoginBadRequest with default headers values
-func NewLoginBadRequest() *LoginBadRequest {
+// NewLoginUnauthorized creates LoginUnauthorized with default headers values
+func NewLoginUnauthorized() *LoginUnauthorized {
 
-	return &LoginBadRequest{}
+	return &LoginUnauthorized{}
+}
+
+// WithPayload adds the payload to the login unauthorized response
+func (o *LoginUnauthorized) WithPayload(payload string) *LoginUnauthorized {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the login unauthorized response
+func (o *LoginUnauthorized) SetPayload(payload string) {
+	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *LoginBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *LoginUnauthorized) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
-	rw.WriteHeader(400)
+	rw.WriteHeader(401)
+	payload := o.Payload
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
 }
 
 // LoginNotFoundCode is the HTTP code returned for type LoginNotFound
 const LoginNotFoundCode int = 404
 
-/*LoginNotFound User not found
+/*LoginNotFound Email not found
 
 swagger:response loginNotFound
 */
@@ -126,7 +144,7 @@ func (o *LoginNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.P
 // LoginInternalServerErrorCode is the HTTP code returned for type LoginInternalServerError
 const LoginInternalServerErrorCode int = 500
 
-/*LoginInternalServerError Server error
+/*LoginInternalServerError Internal Server Error
 
 swagger:response loginInternalServerError
 */

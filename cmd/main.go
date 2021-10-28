@@ -25,7 +25,7 @@ func main(){
 	server.Port = *portFlag
 
 	api.EmployeeSignupHandler = handlers.SignupEmployeeHandler()
-	api.LoginHandler = handlers.Lgoin()
+	api.LoginHandler = handlers.Login()
 
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)

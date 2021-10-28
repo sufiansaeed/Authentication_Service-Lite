@@ -29,6 +29,8 @@ paths:
           schema:
             $ref: '#/definitions/employee'
         409:
+          schema:
+            type: string
           description: Already Exists
         500:
           schema:
@@ -53,16 +55,18 @@ paths:
           description: Successful login
           schema:
             $ref: '#/definitions/LoginSuccess'
-        400:
-          description: Bad Request
+        401:
+          schema:
+            type: string
+          description: Incorrect Password
         404:
           schema:
             type: string
-          description: User not found
+          description: Email not found
         500:
           schema:
             type: string
-          description: Server error
+          description: Internal Server Error
 
 definitions:
   employee:

@@ -13,7 +13,7 @@ func HashPassword(password string) (string, error) {
 }
 
 
-func SignupEmployee(employee *models.DomainEmployee) (string, error, int){
+func SignupEmployee(employee *models.DomainEmployee) (int, string){
 	employee.Password, _ = HashPassword(employee.Password)
 	return MySqlClient.SignupEmployee(employee)
 }

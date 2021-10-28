@@ -54,7 +54,10 @@ func init() {
             }
           },
           "409": {
-            "description": "Already Exists"
+            "description": "Already Exists",
+            "schema": {
+              "type": "string"
+            }
           },
           "500": {
             "description": "Server error",
@@ -90,17 +93,20 @@ func init() {
               "$ref": "#/definitions/LoginSuccess"
             }
           },
-          "400": {
-            "description": "Bad Request"
+          "401": {
+            "description": "Incorrect Password",
+            "schema": {
+              "type": "string"
+            }
           },
           "404": {
-            "description": "User not found",
+            "description": "Email not found",
             "schema": {
               "type": "string"
             }
           },
           "500": {
-            "description": "Server error",
+            "description": "Internal Server Error",
             "schema": {
               "type": "string"
             }
@@ -223,7 +229,10 @@ func init() {
             }
           },
           "409": {
-            "description": "Already Exists"
+            "description": "Already Exists",
+            "schema": {
+              "type": "string"
+            }
           },
           "500": {
             "description": "Server error",
@@ -259,17 +268,20 @@ func init() {
               "$ref": "#/definitions/LoginSuccess"
             }
           },
-          "400": {
-            "description": "Bad Request"
+          "401": {
+            "description": "Incorrect Password",
+            "schema": {
+              "type": "string"
+            }
           },
           "404": {
-            "description": "User not found",
+            "description": "Email not found",
             "schema": {
               "type": "string"
             }
           },
           "500": {
-            "description": "Server error",
+            "description": "Internal Server Error",
             "schema": {
               "type": "string"
             }

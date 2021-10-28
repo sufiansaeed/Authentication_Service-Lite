@@ -65,6 +65,11 @@ const EmployeeSignupConflictCode int = 409
 swagger:response employeeSignupConflict
 */
 type EmployeeSignupConflict struct {
+
+	/*
+	  In: Body
+	*/
+	Payload string `json:"body,omitempty"`
 }
 
 // NewEmployeeSignupConflict creates EmployeeSignupConflict with default headers values
@@ -73,12 +78,25 @@ func NewEmployeeSignupConflict() *EmployeeSignupConflict {
 	return &EmployeeSignupConflict{}
 }
 
+// WithPayload adds the payload to the employee signup conflict response
+func (o *EmployeeSignupConflict) WithPayload(payload string) *EmployeeSignupConflict {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the employee signup conflict response
+func (o *EmployeeSignupConflict) SetPayload(payload string) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *EmployeeSignupConflict) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(409)
+	payload := o.Payload
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
 }
 
 // EmployeeSignupInternalServerErrorCode is the HTTP code returned for type EmployeeSignupInternalServerError
